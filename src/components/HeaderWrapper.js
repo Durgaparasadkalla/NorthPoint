@@ -5,5 +5,6 @@ import HeaderComponent from './HeaderComponent'
 export default function HeaderWrapper() {
   const location = useLocation()
   const isLoginPage = location.pathname === '/'
-  return !isLoginPage ? <HeaderComponent /> : null
+  const isRegister = location.pathname ==='createUser'
+  return (!isLoginPage && isRegister) ? <HeaderComponent /> : null
 }

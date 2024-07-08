@@ -32,7 +32,34 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.bg-container {
+  background-image: url("C:\Users\durga\work\reactjs\NorthPoint\src\assets\images\img2.webp");
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+}
+
+.logo-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  /* Adjust as per your design */
+}
+
+.logo {
+  margin: 1% 35%;
+  /* Adjust as per your design */
+  width: 40%;
+}
+
+.card {
+  height: auto;
 }

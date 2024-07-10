@@ -1,10 +1,10 @@
+import { Controller, useForm } from 'react-hook-form';
 import React, { useEffect, useState } from "react";
+import { createIssue, getProjects, getReporters } from '../services/Users';
+
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import { Controller, useForm } from 'react-hook-form';
-
-import { createIssue, getProjects, getReporters } from '../services/Users';
 
 export default function CreateIssueOrTaskComponent({ handleClose }) {
   const { control, handleSubmit, formState: { errors }, setError, getValues } = useForm({

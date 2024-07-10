@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
-import 'react-datepicker/dist/react-datepicker.css';
+import React, { useEffect, useState } from "react";
+import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Button from 'react-bootstrap/Button';
-import { useForm, Controller } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 
-import { getReporters, getProjects, createIssue } from '../services/Users';
+import { createIssue, getProjects, getReporters } from '../services/Users';
 
 export default function CreateIssueOrTaskComponent({ handleClose }) {
   const { control, handleSubmit, formState: { errors }, setError, getValues } = useForm({

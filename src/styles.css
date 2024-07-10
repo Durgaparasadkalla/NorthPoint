@@ -30,3 +30,66 @@
 .side-bar.minimized {
   width: 5%;
 }
+
+
+.outer-card {
+  position: relative;
+  /* margin-bottom: 20px; */
+}
+
+.outer-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 20px; /* Adjust the width as needed */
+  background-color: #FFE5E5; /* Adjust the color as needed */
+}
+
+.card-header-content {
+  display: flex;
+  align-items: center;
+}
+
+.thumbnail {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  border-radius: 50%;
+}
+
+.project-title {
+  font-size: 0.9rem;
+  color: #6c757d; /* Adjust color as needed */
+}
+
+.project-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 0.5rem;
+}
+
+.dropdown-toggle::after {
+  margin-left: 0.5rem;
+}
+.main-card{
+  margin-left: 10px;
+}
+
+.custom-border {
+  border-color: #126FC0 !important; /* Change to your desired color */
+}
+
+
+.d-flex {
+  display: flex;
+}
+
+.justify-content-end {
+  justify-content: flex-end;
+}
+
+.ml-2 {
+  margin-left: 20px; /* Adds space between the buttons */
+}

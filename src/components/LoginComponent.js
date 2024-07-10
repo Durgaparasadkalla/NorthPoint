@@ -1,8 +1,11 @@
-import React ,{useState}from 'react'
-import { Button } from 'react-bootstrap'
-import { Link, useNavigate } from 'react-router-dom'
-// import logo from '../assets/images/northface_logo2.png'
+import { Link, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+
+import { Button } from 'react-bootstrap';
 import Divider from '@mui/material/Divider';
+
+// import logo from '../assets/images/northface_logo2.png'
+
 
 
 export default function LoginComponent() {
@@ -35,7 +38,7 @@ export default function LoginComponent() {
 
 }
 catch(err){
-  console.log(err);
+  console.log(err.message);
   alert("Failure")
 }
  }

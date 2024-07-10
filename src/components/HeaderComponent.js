@@ -63,7 +63,7 @@ export default function HeaderComponent() {
                     Something else here
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Button variant='primary' onClick={() => handleShow(<CreateIssueOrTaskComponent handleClose={handleClose} />, "Create Issue Screen")}>Create</Button>
+                <Button variant='primary' onClick={() => handleShow(<CreateIssueOrTaskComponent handleClose={handleClose} />, "Create An Issue")}>Create</Button>
               </Nav>
               <Form className='d-flex '>
                 <Form.Control

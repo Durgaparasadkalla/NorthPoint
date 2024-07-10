@@ -39,7 +39,7 @@
 }
 
 .bg-container {
-  background-image: url("C:\Users\durga\work\reactjs\NorthPoint\src\assets\images\img2.webp");
+  background-image: url("../src/assets/images/img2.webp");
   display: flex;
   justify-content: center;
   align-items: center;

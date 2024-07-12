@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function CreateNewUser() {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', role: '', email: '', userId: '', userName: '', password: '' });
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', role: '', email: '', userId: '', userName: '', password: '',organization:'',mobileNo:'' });
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -41,7 +41,7 @@ export default function CreateNewUser() {
 
   return (
     <div className='bg-container' style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh' }}>
-      <div className='card' style={{ width: '600px', height: '500px', padding: '20px' }}>
+      <div className='card' style={{ width: '600px', height: '600px', padding: '20px' }}>
         <div className='logo-container' style={{ textAlign: 'center', marginBottom: '20px' }}>
           <img src={require('../assets/images/northface_logo2.png')} alt='logo' style={{ width: '200px', margin: '0.5% 30%' }} />
         </div>
@@ -55,7 +55,7 @@ export default function CreateNewUser() {
               <label>Lastname:</label>
               <input type='text' className='form-control' name='lastName' value={formData.lastNamerole} onChange={handleChange} />
             </div>
-            {/* <div className='col-lg-6 mb-3'>
+            <div className='col-lg-6 mb-3'>
               <label>Organization:</label>
               <select className='form-control' name='organization' value={formData.organization} onChange={handleChange}>
                 <option value=''>Select Organization</option>
@@ -63,7 +63,7 @@ export default function CreateNewUser() {
                 <option value='org2'>Organization 2</option>
                 <option value='org3'>Organization 3</option>
               </select>
-            </div> */}
+            </div>
             <div className='col-lg-6 mb-3'>
               <label>Role:</label>
               <select className='form-control' name='role' value={formData.role} onChange={handleChange}>
@@ -89,10 +89,10 @@ export default function CreateNewUser() {
               <label>Password </label>
               <input type='password' className='form-control' name='password' value={formData.password} onChange={handleChange} />
             </div>
-            {/* <div className='col-lg-6 mb-3'>
+           <div className='col-lg-6 mb-3'>
               <label>Mobile No:</label>
               <input type='text' className='form-control' name='mobileNo' value={formData.mobileNo} onChange={handleChange}/>
-            </div> */}
+            </div> 
             {/* <div className='col-lg-6 mb-3'>
               <label>Access:</label>
               <input type='text' className='form-control' name='access' value={formData.access} onChange={handleChange}/>

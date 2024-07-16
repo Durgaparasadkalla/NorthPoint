@@ -9,7 +9,7 @@ const CustomModalComponent = ({ show, handleClose, title, children }) => {
       </Modal.Header>
       <Modal.Body>{children}</Modal.Body>
     </Modal>
-  )
+  ) 
 }
 
 export default CustomModalComponent

@@ -41,7 +41,7 @@ export const getProjects = async () => {
 };
 
 export const createIssue = async (issueData) => {
-    try {        
+    try {
         const response = await fetch('http://localhost:8080/api/issue', {
             method: 'POST',
             headers: {

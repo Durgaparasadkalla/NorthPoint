@@ -1,8 +1,10 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import React, { useState } from "react";
-import { Form, Container, Button } from "react-bootstrap";
-import { Controller, useForm } from "react-hook-form";
 import * as yup from "yup";
+
+import { Button, Container, Form } from "react-bootstrap";
+import { Controller, useForm } from "react-hook-form";
+import React, { useState } from "react";
+
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object().shape({
   projectName: yup.string().required("Project Name is required"),

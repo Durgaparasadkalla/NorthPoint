@@ -1,13 +1,13 @@
 import { Route, Routes } from 'react-router-dom'
 
-import React from 'react'
 import AllProjectsComponent from './AllProjectsComponent'
+import CreateNewUser from './CreateNewUser'
 import LoginComponent from './LoginComponent'
 import OurWorkComponent from './OurWorkComponent'
 import ProjectDashBoardComponent from './ProjectDashBoardComponent'
+import React from 'react'
 import SampleComponent from './SampleComponent'
 import UserListComponent from './UserListComponent'
-import CreateNewUser from './CreateNewUser'
 
 export default function RouterComponent() {
 

@@ -1,4 +1,4 @@
-import { Button, Container, Form, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap';
+import { Button, Container, Form, Image, Nav, NavDropdown, Navbar, Offcanvas } from 'react-bootstrap';
 
 import CreateIssueOrTaskComponent from './CreateIssueOrTaskComponent';
 import CreateNewProjectComponent from './CreateNewProjectComponent';
@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 
 export default function HeaderComponent() {
+  const northpoinLogo = require('../assets/images/northfaceliogo.png')
   const navigate = useNavigate()
   const [show, setShow] = useState(false)
   const [modalContent, setModalContent] = useState(null);
@@ -34,10 +35,12 @@ export default function HeaderComponent() {
 
 
   return (
-    <div>
-      <Navbar expand='sm' className='custom-navbar'>
+    <div className='py-4 mb-3'>
+      <Navbar expand='sm' className='custom-navbar bg-secondary-subtle fixed-top'>
         <Container fluid>
-          <Navbar.Brand href="#">North Point</Navbar.Brand>
+          <Navbar.Brand href="#" className='text-light d-flex align-items-center'>
+            <Image className='ms-3' src={northpoinLogo} width="180" height="30" />
+          </Navbar.Brand>
           <Navbar.Toggle aria-controls="offcanvasNavbar-expand-sm" />
           <Navbar.Offcanvas id="offcanvasNavbar-expand-sm"
             aria-labelledby="offcanvasNavbarLabel-expand-sm"
@@ -47,25 +50,24 @@ export default function HeaderComponent() {
             </Offcanvas.Header>
             <Offcanvas.Body>
               <Nav className='justify-content-start flex-grow-1 pe-3'>
-                <NavDropdown title='Your Work' id="offcanvasNavbarDropdown-expand-sm">
-                  <NavDropdown.Item onClick={navigateToOurWorkSpace}>Go to WorkSpace</NavDropdown.Item>
+                <NavDropdown title={<span className='text-dark fw-semibold'>Your work</span>} id="offcanvasNavbarDropdown-expand-sm" className='m-1'>
+                  <NavDropdown.Item onClick={navigateToOurWorkSpace} className='text-dark'>Go to WorkSpace</NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown title='Projects' id="offcanvasNavbarDropdown-expand-sm">
-                  <NavDropdown.Item onClick={()=>handleShow(<CreateNewProjectComponent handleClose={handleClose} />,"Create New Project")}>Create New Project</NavDropdown.Item>
+                <NavDropdown title={<span className='text-dark fw-semibold'>Projects</span>} id="offcanvasNavbarDropdown-expand-sm" className='m-1'>
+                  <NavDropdown.Item onClick={() => handleShow(<CreateNewProjectComponent handleClose={handleClose} />, "Create New Project")}>Create New Project</NavDropdown.Item>
                   <NavDropdown.Item onClick={navigateToAllProjects}>List Of Projects</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item onClick={navigaetToSelectedProject}>Selected Project</NavDropdown.Item>
                 </NavDropdown>
-                <NavDropdown title='Teams' id="offcanvasNavbarDropdown-expand-sm">
-                  <NavDropdown.Item onClick={()=>handleShow(<CreateNewTeamComponent handleClose={handleClose} />,"Create new Team")}>Create New Team</NavDropdown.Item>
-                  <NavDropdown.Item >List Of Projects</NavDropdown.Item>
+                <NavDropdown title={<span className='text-dark fw-semibold'>Teams</span>} id="offcanvasNavbarDropdown-expand-sm" className='m-1 me-4'>
+                  <NavDropdown.Item onClick={() => handleShow(<CreateNewTeamComponent handleClose={handleClose} />, "Create new Team")}>Create New Team</NavDropdown.Item>
+                  <NavDropdown.Item >List Of Teams</NavDropdown.Item>
                   <NavDropdown.Divider />
                   <NavDropdown.Item href='#action5'>
                     Something else here
                   </NavDropdown.Item>
                 </NavDropdown>
-                <Button variant='primary' onClick={() => handleShow(<CreateIssueOrTaskComponent handleClose={handleClose} />, "Create An Issue")}>Create</Button>
-                <Button variant='primary' onClick={() => handleShow(<CreateNewTeamComponent handleClose={handleClose} />, "Create An Team")}>Create new Team</Button>
+                <Button className='rounded-2 shadow-lg fw-semibold' variant='outline-primary' onClick={() => handleShow(<CreateIssueOrTaskComponent handleClose={handleClose} />, "Create An Issue")}>Create Issue</Button>
               </Nav>
               <Form className='d-flex '>
                 <Form.Control

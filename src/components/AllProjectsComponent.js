@@ -1,5 +1,6 @@
+import { Card, Col, Container, Dropdown, Image, Row } from 'react-bootstrap';
+
 import React from 'react';
-import { Container, Row, Col, Card, Dropdown } from 'react-bootstrap';
 
 export default function AllProjectsComponent() {
   // Sample project data
@@ -7,7 +8,7 @@ export default function AllProjectsComponent() {
     {
       id: 1,
       title: 'Sample Project 1',
-      thumbnail:require('../assets/images/Puja.png'),
+      thumbnail: require('../assets/images/Puja.png'),
       quickLinks: 3,
       openIssues: 2,
       doneIssues: 5,
@@ -52,24 +53,34 @@ export default function AllProjectsComponent() {
   ];
 
   return (
-    <Container>
-      <h1>All Projects</h1>
+    <Container className='bg-white ps-5 pe-5' fluid>
+      <Row className='mb-0'>
+        <Col className='m-2 mb-0'>
+          <h3 className='text-dark fw-bolder mb-0'>All Projects</h3>
+        </Col>
+      </Row>
+      <Row>
+        <Col md={12}>
+          <hr className='w-100' />
+        </Col>
+      </Row>
       <Row>
         {projects.map((project) => (
           <Col key={project.id} md={3}>
-            <Card className="outer-card mb-3" >
-              <Card.Header as="h5" className='main-card'>
-                <div className="card-header-content ">
-                  <img
-                    src={project.thumbnail}
-                    alt="Project Thumbnail"
-                    className="thumbnail"
-                  />
-                  <div>
-                    <div>{project.title}</div>
-                    <div className="project-title">{project.title}</div>
-                  </div>
-                </div>
+            <Card className="outer-card mb-3 shadow-lg" >
+              <Card.Header as="h5" className='ms-1 bg-secondary-subtle'>
+                <Row className=''>
+                  <Col className='me-2' md={1}>
+                    <Image src={project.thumbnail}
+                      alt='Project Thumbnail'
+                      className="thumbnail "
+                    />
+                  </Col>
+                  <Col>
+                    <Card.Title className='fs-5 mb-0 fw-semibold'>{project.title}</Card.Title>
+                    <Card.Title className='fs-6 '>{project.title}</Card.Title>
+                  </Col>
+                </Row>
               </Card.Header>
               <Card.Body className='main-card'>
                 <Card.Text className="project-item">

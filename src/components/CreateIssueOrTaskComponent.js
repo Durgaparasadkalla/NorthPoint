@@ -1,5 +1,5 @@
-import { Controller, useForm } from 'react-hook-form';
 import React, { useEffect, useState } from "react";
+import { Controller, useForm } from 'react-hook-form';
 import { createIssue, getProjects, getReporters } from '../services/Users';
 
 import Button from 'react-bootstrap/Button';
@@ -192,6 +192,7 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
       const response = await createIssue(issueData);
       alert('Issue created successfully:', response);
       handleClose();
+      
     } catch (error) {
       alert('Error creating issue:', error);
       console.error('Error creating issue:', error);

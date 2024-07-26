@@ -12,26 +12,24 @@
   height: 50vh;
   /* Adjust the height as needed */
 }
+/* 
+.no-border {
+ 
+  height: 100vh;
+ 
+ 
+} */
 
-.no-border .list-group-item {
-  border: none;
-  border-bottom: 1px solid #dee2e6;
-  background-color: #E5F3FF;
-}
+
+/* Project Dash board Css */
 
 .side-bar {
   border-right: 1px solid #0000ff;
 }
 
-/* .side-bar {
-  transition: width 0.3s ease;
-} */
-
-.side-bar.minimized {
-  width: 5%;
-}
 
 
+/* All Projects Components */
 .outer-card {
   position: relative;
   /* margin-bottom: 20px; */
@@ -80,7 +78,6 @@
 .custom-border {
   border-color: #126FC0 !important; /* Change to your desired color */
 }
-
 
 .d-flex {
   display: flex;

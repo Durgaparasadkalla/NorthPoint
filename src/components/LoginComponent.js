@@ -34,7 +34,7 @@ export default function LoginComponent() {
   const data = await response.json();
   console.log(data);
   alert("Success")
-  navigate('/ourWork');
+  navigate('/allProjects');
 
 }
 catch(err){

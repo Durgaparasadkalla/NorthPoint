@@ -1,0 +1,50 @@
+.toggle-icon {
+  color: blue;
+}
+
+.side-bar {
+  border-right: 0px solid #0000ff;
+}
+/* Adjust height for medium screens */
+@media (max-width:992px) {
+  .side-bar {
+    height: inherit;
+  }
+}
+/* Adjust height for small screens */
+@media (max-width: 768px) {
+  .side-bar {
+    height: inherit; /* Adjust this value as needed */
+  }
+}
+
+/* Adjust height for extra small screens */
+@media (max-width: 576px) {
+  .side-bar {
+    height: inherit; /* Adjust this value as needed */
+  }
+}
+.side-bar-bg-color{
+  height: 80vh;
+}
+@media (max-width:992px) {
+  .side-bar-bg-color {
+    height: 80vh;
+  }
+}
+/* Adjust height for small screens */
+@media (max-width: 768px) {
+  .side-bar-bg-color {
+    height: 60vh; /* Adjust this value as needed */
+  }
+}
+
+/* Adjust height for extra small screens */
+@media (max-width: 576px) {
+  .side-bar-bg-color {
+    height: 50vh; /* Adjust this value as needed */
+  }
+}
+.side-bar.minimized {
+  width: 5%;
+}

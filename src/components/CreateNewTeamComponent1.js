@@ -4,7 +4,10 @@ import { Controller, useForm } from "react-hook-form";
 import React, { useState, useEffect } from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { createTeam, getProjects, getUsers } from '../services/Users';
-import Select from 'react-select';
+import { MultiSelect } from 'primereact/multiselect';
+import 'primereact/resources/themes/saga-blue/theme.css';
+import 'primereact/resources/primereact.min.css';
+import 'primeicons/primeicons.css';
 
 const schema = yup.object().shape({
   teamName: yup.string().required('Team name is required'),
@@ -12,14 +15,17 @@ const schema = yup.object().shape({
   teamMembers: yup.array().min(1, "Select at least one member").required("Select at least one member"),
 });
 
-export default function CreateNewTeamComponent({ handleClose }) {
+export default function CreateNewTeamComponent1({ handleClose }) {
   const { control, handleSubmit, formState: { errors } } = useForm({
     resolver: yupResolver(schema),
     defaultValues: {
       teamMembers: [],
-      teamName: '',
+      teamName: 'sample1',
     },
   });
+
+  
+ 
 
   const onSubmitForm = async (data) => {
     try {
@@ -57,6 +63,8 @@ export default function CreateNewTeamComponent({ handleClose }) {
   return (
     <Container>
       <Form onSubmit={handleSubmit(onSubmitForm)}>
+      <h3>Create new Team</h3>
+      <hr class="custom-hr"/>
         <Form.Group className="mb-3" controlId="teamName">
           <Form.Label>Team Name *</Form.Label>
           <Controller
@@ -85,8 +93,6 @@ export default function CreateNewTeamComponent({ handleClose }) {
             render={({ field }) => (
               <Form.Select
                 {...field}
-                onChange={(e) => field.onChange(e.target.value)}
-                value={field.value || ''} // Ensure value is set correctly
                 style={{ width: "50%" }}
                 isInvalid={!!errors.projectName}
               >
@@ -105,24 +111,23 @@ export default function CreateNewTeamComponent({ handleClose }) {
         </Form.Group>
 
         <Form.Group className="mb-3" controlId="teamMembers">
-          <Form.Label>Add Members*</Form.Label>
+          <Form.Label>Add Members*</Form.Label><br/>
           <Controller
             name="teamMembers"
             control={control}
             render={({ field }) => (
-              <Select
+              <MultiSelect
                 {...field}
-                isMulti
-                style={{ width: "50%" }}  // Apply style directly to Select component
+                style={{ width: "50%" }}
                 value={field.value}
-                onChange={(selectedOptions) => field.onChange(selectedOptions)}
+                onChange={(e) => field.onChange(e.value)}
                 options={users}
-                getOptionValue={(option) => option.userId}
-                getOptionLabel={(option) => option.userName}
+                optionLabel="userName"
+                optionValue="userId" // Use userId as the value
+                display="chip"
                 placeholder="Select Team Members"
                 maxSelectedLabels={10}
-                className="basic-multi-select w-50"
-                classNamePrefix="select"
+                className="w-full md:w-20rem"
               />
             )}
           />

@@ -1,6 +1,6 @@
 import { Controller, useForm } from 'react-hook-form';
 import React, { useEffect, useState } from "react";
-import { createIssue, getProjects, getReporters } from '../services/Users';
+import { createIssue, getProjects, getUsers, getIssues } from '../services/Users';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -20,6 +20,7 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
       selectedIssueLinkTypeValue: '',
       selectedLinkIssueValue: '',
       assignee: '',
+      comment: '',
       // startDate: '',
       // endDate: ''
     }
@@ -56,16 +57,16 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
     { value: 'is duplicated by', label: 'is duplicated by' },
   ];
 
-  const options7 = [ ];
-
   const [reporters, setReporters] = useState([]);
   const [assignees, setAssignees] = useState([]);
   const [projects, setProjects] = useState([]);
+  const [parentIssues, setParentIssues] = useState([]);
+  const [linkIssues, setLinkIssues] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const reportersData = await getReporters();
+        const reportersData = await getUsers();
         setReporters(reportersData);
         setAssignees(reportersData);
 
@@ -75,6 +76,12 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
         setProjects(projectsData);
 
         console.log(projectsData);
+
+        const issueData = await getIssues();
+        setParentIssues(issueData);
+        setLinkIssues(issueData);
+
+        console.log(issueData);
       } catch (error) {
         console.error('Error fetching data:', error);
       }
@@ -172,31 +179,39 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
     if (hasErrors) {
       return;
     }
-    console.log("attachments " + data.attachments);
-    console.log("EnteredData " + JSON.stringify(data));
 
-    const issueData = {
-      issueId: "JAK-5",
-      projectId: data.selectedProjectValue,
-      reporterUserId: data.reporter,
-      assigneeUserId: data.assignee,
-      title: data.summary,
-      description: data.description,
-      status: data.selectedStatusValue,
-      priority: data.selectedPriorityValue,
-      issueType: data.selectedIssueValue,
-    };
+    console.log("attachments:", data.attachments);
+    console.log("Entered Data:", JSON.stringify(data));
 
-    console.log("issueData " + issueData);
+    const issueData = new FormData();
+    issueData.append("projectId", data.selectedProjectValue);
+
+    // Append multiple files from the attachments array
+    // data.attachments.forEach((file, index) => {
+    //   issueData.append("files", file);
+    // });
+    issueData.append('files',data.attachments[0])
+    issueData.append("reporterUserId", data.reporter);
+    issueData.append("assigneeUserId", data.assignee);
+    issueData.append("title", data.summary);
+    issueData.append("description", data.description);
+    issueData.append("status", data.selectedStatusValue);
+    issueData.append("priority", data.selectedPriorityValue);
+    issueData.append("issueType", "ISSUE-1");
+    issueData.append("comment", data.comment);
+
+    console.log("issueData =", issueData);
+
     try {
       const response = await createIssue(issueData);
-      alert('Issue created successfully:', response);
-      handleClose();
+      alert('Issue created successfully: ' + JSON.stringify(response)); // Concatenate properly for alert
+      handleClose(); // Assuming handleClose is a function to close a modal or form
     } catch (error) {
-      alert('Error creating issue:', error);
+      alert('Error creating issue: ' + error.message); // Concatenate properly for alert
       console.error('Error creating issue:', error);
     }
   };
+
 
   // const handleCancel = () => {
   //   handleClose();
@@ -291,7 +306,7 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
             )}
           />
           {errors.summary && <div style={{ color: 'red' }}>{errors.summary.message}</div>}
-        </Form.Group>        
+        </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Parent</Form.Label>
@@ -306,9 +321,9 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
                 defaultValue="" // Ensure defaultValue is set to an empty string or the initial value you want
               >
                 <option value="" disabled>Select Parent Issue</option>
-                {options7.map((option) => (
-                  <option key={option.value} value={option.value}>
-                    {option.label}
+                {parentIssues.map((issue) => (
+                  <option key={issue.issueId} value={issue.issueId}>
+                    {issue.issueId} {issue.title}
                   </option>
                 ))}
               </Form.Select>
@@ -388,20 +403,23 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
           <Controller
             name="attachments"
             control={control}
-            render={({ field }) => (
+            render={({ field: { onChange, rest } }) => (
               <Form.Control
+                {...rest}
                 type="file"
-                multiple
-                onChange={(e) => {
-                  const files = Array.from(e.target.files);
-                  field.onChange(files);
-                }}
+                // multiple
+                // onChange={(e) => {
+                //   const files = Array.from(e.target.files);
+                //   field.onChange(files);
+                // }}
+                onChange={(e) => onChange(e.target.files)}
+
                 isInvalid={!!errors.attachments}
               />
             )}
           />
           {errors.attachments && <div style={{ color: 'red' }}>{errors.attachments.message}</div>}
-        </Form.Group>      
+        </Form.Group>
 
 
         <Form.Group className="mb-3">
@@ -433,15 +451,19 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
             name="selectedLinkIssueValue"
             control={control}
             render={({ field }) => (
-              <InputGroup style={{ width: "50%" }}>
-                <Form.Control
-                  {...field}
-                  
-                  placeholder="Select Options"
-                  aria-label="selectedLinkIssueValue"
-                  isInvalid={!!errors.selectedLinkIssueValue}
-                />
-              </InputGroup>
+              <Form.Select
+                {...field}
+                style={{ width: "50%" }}
+                aria-label="selectedLinkIssueValue"
+                defaultValue="" // Ensure defaultValue is set to an empty string or the initial value you want
+              >
+                <option value="" disabled>Select Link Issue</option>
+                {linkIssues.map((issue) => (
+                  <option key={issue.issueId} value={issue.issueId}>
+                    {issue.issueId} {issue.title}
+                  </option>
+                ))}
+              </Form.Select>
             )}
           />
           {errors.selectedLinkIssueValue && <div style={{ color: 'red' }}>{errors.selectedLinkIssueValue.message}</div>}
@@ -468,6 +490,25 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
             )}
           />
           {errors.assignee && <div style={{ color: 'red' }}>{errors.assignee.message}</div>}
+        </Form.Group>
+
+        <Form.Group className="mb-3">
+          <Form.Label>Comment</Form.Label>
+          <Controller
+            name="comment"
+            control={control}
+            render={({ field }) => (
+              <InputGroup>
+                <Form.Control
+                  {...field}
+                  placeholder="Enter Comment"
+                  aria-label="comment"
+                  isInvalid={!!errors.comment}
+                />
+              </InputGroup>
+            )}
+          />
+          {errors.comment && <div style={{ color: 'red' }}>{errors.comment.message}</div>}
         </Form.Group>
 
         {/* <Form.Group className="mb-3">
@@ -515,6 +556,6 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
         <Button variant="link" onClick={handleClose}>Cancel</Button>
         <Button variant="primary" type="submit">Submit</Button>
       </form>
-    </div>
+    </div >
   );
 }

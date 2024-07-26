@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom'
 
 export default function CreateNewUser() {
-  const [formData, setFormData] = useState({ firstName: '', lastName: '', role: '', email: '', userId: '', userName: '', password: '',organization:'',mobileNo:'' });
+  const [formData, setFormData] = useState({ firstName: '', lastName: '', role: '', email: '', userName: '', password: '',organization:'',mobileNumber:'' });
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -77,10 +77,10 @@ export default function CreateNewUser() {
               <label>Email:</label>
               <input type='email' className='form-control' name='email' value={formData.email} onChange={handleChange} />
             </div>
-            <div className='col-lg-6 mb-3'>
+            {/* <div className='col-lg-6 mb-3'>
               <label>Employee ID No:</label>
               <input type='text' className='form-control' name='userId' value={formData.userId} onChange={handleChange} />
-            </div>
+            </div> */}
             <div className='col-lg-6 mb-3'>
               <label>User Name </label>
               <input type='text' className='form-control' name='userName' value={formData.userName} onChange={handleChange} />
@@ -91,7 +91,7 @@ export default function CreateNewUser() {
             </div>
            <div className='col-lg-6 mb-3'>
               <label>Mobile No:</label>
-              <input type='text' className='form-control' name='mobileNo' value={formData.mobileNo} onChange={handleChange}/>
+              <input type='text' className='form-control' name='mobileNumber' value={formData.mobileNumber} onChange={handleChange}/>
             </div> 
             {/* <div className='col-lg-6 mb-3'>
               <label>Access:</label>

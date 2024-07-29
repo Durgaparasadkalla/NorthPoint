@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
 import { Controller, useForm } from 'react-hook-form';
-import { createIssue, getProjects, getReporters } from '../services/Users';
+import React, { useEffect, useState } from "react";
+import { createIssue, getProjects } from '../services/Users';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -199,10 +199,6 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
     }
   };
 
-  // const handleCancel = () => {
-  //   handleClose();
-  // };
-
   return (
     <div className="create-issue-modal">
       <form onSubmit={handleSubmit(onSubmit)}>
@@ -228,7 +224,6 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
           />
           {errors.selectedProjectValue && <div style={{ color: 'red' }}>{errors.selectedProjectValue.message}</div>}
         </Form.Group>
-
         <Form.Group className="mb-3">
           <Form.Label>Issue type*</Form.Label>
           <Controller

@@ -63,3 +63,9 @@
 .card {
   height: auto;
 }
+
+.custom-hr {
+  border: 0;
+  border-top: 3px solid #140202;
+  margin: 20px 0;
+}

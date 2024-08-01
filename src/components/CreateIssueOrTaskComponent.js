@@ -1,10 +1,12 @@
 import { Controller, useForm } from 'react-hook-form';
 import React, { useEffect, useState } from "react";
-import { createIssue, getProjects } from '../services/Users';
 
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
+import { createIssue } from '../services/IssueService';
+import { getProjects } from '../services/ProjectService';
+import { getUsers } from '../services/Users';
 
 export default function CreateIssueOrTaskComponent({ handleClose }) {
   const { control, handleSubmit, formState: { errors }, setError, getValues } = useForm({
@@ -56,33 +58,47 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
     { value: 'is duplicated by', label: 'is duplicated by' },
   ];
 
-  const options7 = [ ];
+  const options7 = [];
 
   const [reporters, setReporters] = useState([]);
   const [assignees, setAssignees] = useState([]);
   const [projects, setProjects] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
+
+
+  const fetchData = async () => {
+    try {
       try {
-        const reportersData = await getReporters();
+        const reportersData = await getUsers();
         setReporters(reportersData);
         setAssignees(reportersData);
 
         console.log(reportersData);
 
+      } catch (error) {
+        throw new Error("Server error fetching from users", error)
+      }
+      try {
         const projectsData = await getProjects();
         setProjects(projectsData);
 
         console.log(projectsData);
       } catch (error) {
-        console.error('Error fetching data:', error);
+        throw new Error('Server Error fetching from getProjects', error)
       }
-    };
 
-    fetchData();
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    try {
+      fetchData();
+    } catch (error) {
+      console.error("Error executing the useEffect", error)
+    }
   }, []);
-
   const validateFields = (data) => {
     let hasErrors = false;
 
@@ -149,54 +165,42 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
       });
       hasErrors = true;
     }
-    // if (!data.startDate) {
-    //   setError("startDate", {
-    //     type: "manual",
-    //     message: "Please select a start date",
-    //   });
-    //   hasErrors = true;
-    // }
-    // if (!data.endDate) {
-    //   setError("endDate", {
-    //     type: "manual",
-    //     message: "Please select an end date",
-    //   });
-    //   hasErrors = true;
-    // }
-
     return hasErrors;
   };
 
   const onSubmit = async (data) => {
-    const hasErrors = validateFields(data);
-    if (hasErrors) {
-      return;
-    }
-    console.log("attachments " + data.attachments);
-    console.log("EnteredData " + JSON.stringify(data));
-
-    const issueData = {
-      issueId: "JAK-5",
-      projectId: data.selectedProjectValue,
-      reporterUserId: data.reporter,
-      assigneeUserId: data.assignee,
-      title: data.summary,
-      description: data.description,
-      status: data.selectedStatusValue,
-      priority: data.selectedPriorityValue,
-      issueType: data.selectedIssueValue,
-    };
-
-    console.log("issueData " + issueData);
     try {
-      const response = await createIssue(issueData);
-      alert('Issue created successfully:', response);
-      handleClose();
-      
+      const hasErrors = validateFields(data);
+      if (hasErrors) {
+        throw new Error("Validation error in fields:", hasErrors)
+        // return;
+      }
+      console.log("attachments " + data.attachments);
+      console.log("EnteredData " + JSON.stringify(data));
+      const issueData = new FormData();
+      issueData.append("projectId", data.selectedProjectValue);
+      issueData.append('files', data.attachments[0]);
+      issueData.append('reporterUserId', data.reporter);
+      issueData.append('assigneeUserId', data.assignee);
+      issueData.append('title', data.summary);
+      issueData.append('description', data.description);
+      issueData.append('status', data.selectedStatusValue);
+      issueData.append('priority', data.selectedPriorityValue);
+      issueData.append('issueType', data.selectedIssueValue)
+      issueData.append('comment', data.comment)
+      try {
+        const response = await createIssue(issueData);
+        alert('Issue created successfully:', response);
+        handleClose();
+
+      } catch (error) {
+        alert('Error creating issue:', error);
+        throw new Error("Error creating issue from server:", error)
+      }
     } catch (error) {
-      alert('Error creating issue:', error);
-      console.error('Error creating issue:', error);
+      console.log("Error submitting the issue", error)
     }
+
   };
 
   return (
@@ -287,7 +291,7 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
             )}
           />
           {errors.summary && <div style={{ color: 'red' }}>{errors.summary.message}</div>}
-        </Form.Group>        
+        </Form.Group>
 
         <Form.Group className="mb-3">
           <Form.Label>Parent</Form.Label>
@@ -397,7 +401,7 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
             )}
           />
           {errors.attachments && <div style={{ color: 'red' }}>{errors.attachments.message}</div>}
-        </Form.Group>      
+        </Form.Group>
 
 
         <Form.Group className="mb-3">
@@ -432,7 +436,7 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
               <InputGroup style={{ width: "50%" }}>
                 <Form.Control
                   {...field}
-                  
+
                   placeholder="Select Options"
                   aria-label="selectedLinkIssueValue"
                   isInvalid={!!errors.selectedLinkIssueValue}
@@ -507,7 +511,24 @@ export default function CreateIssueOrTaskComponent({ handleClose }) {
           />
           {errors.endDate && <div style={{ color: 'red' }}>{errors.endDate.message}</div>}
         </Form.Group> */}
-
+        <Form.Group className="mb-3">
+          <Form.Label>Comment</Form.Label>
+          <Controller
+            name="comment"
+            control={control}
+            render={({ field }) => (
+              <InputGroup>
+                <Form.Control
+                  {...field}
+                  placeholder="Enter Comment"
+                  aria-label="comment"
+                  isInvalid={!!errors.comment}
+                />
+              </InputGroup>
+            )}
+          />
+          {errors.comment && <div style={{ color: 'red' }}>{errors.comment.message}</div>}
+        </Form.Group>
         <Button variant="link" onClick={handleClose}>Cancel</Button>
         <Button variant="primary" type="submit">Submit</Button>
       </form>

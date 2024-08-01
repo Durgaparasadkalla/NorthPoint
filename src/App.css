@@ -69,3 +69,35 @@
   border-top: 3px solid #140202;
   margin: 20px 0;
 }
+
+
+.profile-image-wrapper {
+  width: 35px; /* Set the desired width */
+  height: 35px; /* Set the desired height */
+  position: relative;
+  overflow: hidden;
+}
+
+.profile-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.profile-placeholder {
+  display: none; /* Hide by default, only shown if image fails to load */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 14px; /* Adjust as needed */
+  color: #333; /* Adjust text color as needed */
+  text-align: center;
+}
+
+.profile-image-wrapper .profile-placeholder {
+  display: block; /* Show placeholder when image is not loaded */
+}

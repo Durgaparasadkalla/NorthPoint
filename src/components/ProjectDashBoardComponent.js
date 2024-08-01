@@ -11,7 +11,12 @@ export default function ProjectDashBoardComponent() {
   const navigate = useNavigate()
   const [isSideBarVisible, setSideBarVisible] = useState(true)
   const navigateToListOfIssues = () => {
-    navigate('userList')
+    try {
+      navigate('userList')
+    } catch (error) {
+      console.error("Error navigating")
+    }
+
   }
   const navigateToSample = () => {
     navigate('sample')

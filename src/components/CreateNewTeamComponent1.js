@@ -1,13 +1,16 @@
+import 'primeicons/primeicons.css';
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css';
+
 import * as yup from "yup";
+
 import { Button, Container, Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-import React, { useState, useEffect } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { createTeam, getProjects, getUsers } from '../services/Users';
+import React, { useEffect, useState } from "react";
+import { getProjects, getUsers } from '../services/Users';
+
 import { MultiSelect } from 'primereact/multiselect';
-import 'primereact/resources/themes/saga-blue/theme.css';
-import 'primereact/resources/primereact.min.css';
-import 'primeicons/primeicons.css';
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object().shape({
   teamName: yup.string().required('Team name is required'),

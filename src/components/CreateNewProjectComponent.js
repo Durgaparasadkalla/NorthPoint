@@ -2,8 +2,8 @@ import * as yup from "yup";
 
 import { Button, Container, Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-import React, { useState } from "react";
 
+import React from "react";
 import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object().shape({
@@ -39,18 +39,6 @@ export default function CreateNewProjectComponent({ handleClose }) {
       formData.append("description", data.description);
 
       console.log("formData", formData);
-      // const response = await fetch("http://127.0.0.1:8080/api/project", {
-      //   method: "POST",
-      //   body: formData,
-      // });
-      // const responseData = await response.json();
-      // console.log("response:", responseData);
-      // if (responseData.ok) {
-      //   handleClose();
-      // } else {
-      //   throw new Error(response.error.message || "Server Error");
-      // }
-
       try {
         const response = await fetch("http://127.0.0.1:8080/api/project", {
           method: "POST",
@@ -66,7 +54,7 @@ export default function CreateNewProjectComponent({ handleClose }) {
         } else {
           // Handle error
           throw new Error(responseData.message || "Server Error")
-    
+
         }
       } catch (error) {
         console.error("Error:", error);
@@ -89,9 +77,8 @@ export default function CreateNewProjectComponent({ handleClose }) {
                 {...field}
                 type="text"
                 placeholder="Project Name"
-                className={`custom-border ${
-                  errors.projectName ? "is-invalid" : ""
-                }`}
+                className={`custom-border ${errors.projectName ? "is-invalid" : ""
+                  }`}
               />
             )}
           />
@@ -127,9 +114,8 @@ export default function CreateNewProjectComponent({ handleClose }) {
                 {...field}
                 as="textarea"
                 rows={3}
-                className={`custom-border ${
-                  errors.summary ? "is-invalid" : ""
-                }`}
+                className={`custom-border ${errors.summary ? "is-invalid" : ""
+                  }`}
               />
             )}
           />

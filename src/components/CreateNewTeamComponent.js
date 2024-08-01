@@ -1,10 +1,13 @@
 import * as yup from "yup";
+
 import { Button, Container, Form } from "react-bootstrap";
 import { Controller, useForm } from "react-hook-form";
-import React, { useState, useEffect } from "react";
-import { yupResolver } from "@hookform/resolvers/yup";
-import { createTeam, getProjects, getUsers } from '../services/Users';
+import React, { useEffect, useState } from "react";
+
 import Select from 'react-select';
+import { getProjects } from "../services/ProjectService";
+import { getUsers } from '../services/Users';
+import { yupResolver } from "@hookform/resolvers/yup";
 
 const schema = yup.object().shape({
   teamName: yup.string().required('Team name is required'),
